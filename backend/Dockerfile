@@ -1,7 +1,7 @@
 # MULTI STAGE
 
 # BUILD
-FROM gradle:jdk17-alpine AS build
+FROM arm64v8/gradle:6-jdk17-focal AS build
 ENV APP_HOME=/usr/app/
 WORKDIR $APP_HOME
 COPY build.gradle settings.gradle $APP_HOME
@@ -15,7 +15,7 @@ COPY . .
 RUN gradle clean build
 
 #APP CONTAINER
-FROM openjdk:17.0.2-jdk-slim-buster
+FROM arm64v8/eclipse-temurin:17-jre
 ENV ARTIFACT_NAME=springHexagonal-0.0.1-SNAPSHOT.jar
 ENV APP_HOME=/usr/app/
 WORKDIR $APP_HOME

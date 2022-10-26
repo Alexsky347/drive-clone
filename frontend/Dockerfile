@@ -1,4 +1,4 @@
-FROM node:lts-alpine AS build-step
+FROM arm64v8/node:16.18.0-slim AS build-step
 WORKDIR /app
 COPY package*.json package-lock.json ./
 RUN npm install
