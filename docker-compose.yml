@@ -44,6 +44,7 @@ services:
       - ./certbot/data:/var/www/certbot
   db:
     restart: always
+    container_name: drive-db
     networks:
       - main-network
     image: 'postgres:latest'
