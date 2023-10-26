@@ -62,7 +62,10 @@ tasks.named('test') {
 
 hibernate {
     enhancement {
-        enableAssociationManagement = true
+        lazyInitialization true
+        dirtyTracking true
+        associationManagement true
+        extendedEnhancement true
     }
 }
 

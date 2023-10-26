@@ -10,13 +10,13 @@ COPY gradle $APP_HOME/gradle
 COPY --chown=gradle:gradle . /home/gradle/src
 USER root
 RUN chown -R gradle /home/gradle/src
-RUN gradle build --stacktrace || return 0
+RUN gradle build -x test --stacktrace || return 0
 COPY . .
 RUN gradle clean build
 
 #APP CONTAINER
 FROM eclipse-temurin:17-jre-focal
-ENV ARTIFACT_NAME=springHexagonal-0.0.1-SNAPSHOT.jar
+ENV ARTIFACT_NAME=drive-clone-0.0.1-SNAPSHOT.jar
 ENV APP_HOME=/usr/app/
 WORKDIR $APP_HOME
 COPY --from=build $APP_HOME/build/libs/$ARTIFACT_NAME .
