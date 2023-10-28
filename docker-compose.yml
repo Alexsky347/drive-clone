@@ -4,7 +4,7 @@ services:
     image: 'back:0.0.1'
     build:
       context: ./drive-clone-backend
-    container_name: drive-back    
+    container_name: drive-back
     depends_on:
       - db
     networks:
@@ -16,9 +16,6 @@ services:
       - "5005:5005"
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
-      - DB_NAME=$DB_NAME
-      - DB_USER_USERNAME=$DB_USER_USERNAME
-      - DB_PORT=$DB_PORT
       - DRIVE_USER_USERNAME=$DRIVE_USER_USERNAME
       - DRIVE_USER_PWD=$DRIVE_USER_PWD
       - DRIVE_USER_EMAIL=$DRIVE_USER_EMAIL
@@ -26,22 +23,10 @@ services:
       - LOG_LEVEL_SECURITY=$LOG_LEVEL_SECURITY
       - ALLOWED_HOST=$ALLOWED_HOST
       - SERVER_PORT=$SERVER_PORT
-  frontend:
-    image: 'front:0.0.1'
-    build:
-      context: ./drive-clone-frontend
-    container_name: drive-front
-    depends_on:
-      - backend
-    networks:
-      - main-network
-    ports:
-      - "$FRONTEND_PORT:80"
-      - '443:443'
-    volumes:
-      - ./etc/nginx/templates:/etc/nginx/templates:ro
-      - ./etc/letsencrypt:/etc/letsencrypt:ro # mounting the folder to the nginx container 
-      - ./certbot/data:/var/www/certbot
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://drive-db/$DB_NAME
+      - SPRING_DATASOURCE_USERNAME=$DB_USER_USERNAME
+      - SPRING_DATASOURCE_PASSWORD=$DB_USER_PASSWORD
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
   db:
     restart: always
     container_name: drive-db
@@ -60,12 +45,26 @@ services:
     depends_on:
       - frontend
     command: >-
-             certonly --reinstall --webroot --webroot-path=/var/www/certbot
-             --email ${EMAIL} --agree-tos --no-eff-email
-             -d ${DOMAIN}
+      certonly --reinstall --webroot --webroot-path=/var/www/certbot
+      --email ${EMAIL} --agree-tos --no-eff-email
+      -d ${DOMAIN}
     volumes:
       - ./etc/letsencrypt:/etc/letsencrypt:rw
       - ./certbot/data:/var/www/certbot:rw
+  frontend:
+    image: 'front:0.0.1'
+    build:
+      context: ./drive-clone-frontend
+    container_name: drive-front
+    networks:
+      - main-network
+    ports:
+      - "$FRONTEND_PORT:80"
+      - '443:443'
+    volumes:
+      - ./etc/nginx/templates:/etc/nginx/templates:ro
+      - ./etc/letsencrypt:/etc/letsencrypt:ro # mounting the folder to the nginx container
+      - ./certbot/data:/var/www/certbot
 
 networks:
   main-network:

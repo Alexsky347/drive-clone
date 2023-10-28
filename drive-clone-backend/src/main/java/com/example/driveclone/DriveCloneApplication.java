@@ -75,7 +75,7 @@ public class DriveCloneApplication {
             }
 
             //init storage
-            storageService.init();
+//            storageService.init();
 
             // generate RSA keys
             KeysPairUtils.generateRSAKeys();

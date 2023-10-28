@@ -6,6 +6,7 @@ import com.example.driveclone.repository.FileRepository;
 import com.example.driveclone.utils.exception.CustomError;
 import com.example.driveclone.utils.storage.util.FileUtil;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,9 +29,12 @@ import java.util.*;
 public class FilesStorageService implements IFilesStorageService {
     public final Path root = Paths.get("src/main/resources/static");
     private final FileRepository fileRepository;
+    private final ResourceLoader resourceLoader;
 
-    FilesStorageService(FileRepository fileRepository) {
+
+    FilesStorageService(FileRepository fileRepository, ResourceLoader resourceLoader) {
         this.fileRepository = fileRepository;
+        this.resourceLoader = resourceLoader;
     }
 
     @Override
@@ -45,8 +49,22 @@ public class FilesStorageService implements IFilesStorageService {
 
     @Override
     public void init() throws IOException {
-        if (!Files.exists(root)) {
-            Files.createDirectory(root);
+        Resource resource = resourceLoader.getResource("classpath:/static");
+        File staticDirectory = resource.getFile();
+        boolean staticDirectoryCreated = false;
+
+        if (!staticDirectory.exists()) {
+            staticDirectoryCreated = staticDirectory.mkdir();
+            if (!staticDirectoryCreated) {
+                throw new CustomError("Could not create the directory where the uploaded files will be stored.");
+            }
+        }
+    }
+
+    private void createUserDirectory(Path userDir, String username) throws IOException {
+        if (!Files.exists(userDir)) {
+            Files.createDirectory(userDir);
+            Files.createDirectory(getUserZipDir(username));
         }
     }
 
@@ -54,11 +72,8 @@ public class FilesStorageService implements IFilesStorageService {
     public Map<String, String> save(MultipartFile file, User user) throws IOException {
         String username = user.getUsername();
         Path userDir = this.getUserDir(username);
+        this.createUserDirectory(userDir, username);
 
-        if (!Files.exists(userDir)) {
-            Files.createDirectory(userDir);
-            Files.createDirectory(getUserZipDir(username));
-        }
         Path filePath = userDir.resolve(Objects.requireNonNull(file.getOriginalFilename()));
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
         FileInfo fileInfo = new FileInfo(filePath.getFileName().toString(), new File(filePath.toString()).length(), user, new Date());
