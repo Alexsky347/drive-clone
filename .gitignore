@@ -4,3 +4,4 @@
 drive-frontend/.env
 
 backend/log
+etc/letsencrypt/**/*
