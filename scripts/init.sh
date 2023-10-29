@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo 'Starting init script'
+
 #GENERAL
 NETWORK_NAME=drive-nt
 DOMAIN=ledainalexis.com
@@ -47,3 +49,5 @@ echo "NODE_ENV=production" >> "$env_bk_file_path"
 env_fr_file_path="../drive-clone-frontend/.env"
 echo > $env_fr_file_path
 echo REACT_APP_BACKEND_URL=http://localhost/api >> $env_fr_file_path
+
+echo 'Init script finished'

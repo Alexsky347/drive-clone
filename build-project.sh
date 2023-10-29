@@ -1,7 +1,9 @@
 #!/bin/bash
 
-source init.sh
-source package.sh
+echo 'Starting build_project script'
+
+source scripts/init.sh
+source scripts/package.sh
 
 docker compose down
 
@@ -17,3 +19,9 @@ docker compose down
 # Phase 2
 #crontab ./etc/crontab
 docker compose up -d
+
+
+# publish docker image and increment tag
+source scripts/publish.sh my_image 1.0 my-registry
+
+echo 'Build_project script finished'

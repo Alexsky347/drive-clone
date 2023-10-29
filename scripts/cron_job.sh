@@ -1,4 +1,7 @@
 #!/bin/bash
+
+echo 'Starting cron_job script'
+
 # cleanup exited docker containers
 EXITED_CONTAINERS=$(docker ps -a | grep Exited | awk '{ print $1 }')
 if [ -z "$EXITED_CONTAINERS" ]
@@ -11,5 +14,7 @@ fi
 # renew certbot certificate
 docker-compose run --rm certbot
 docker-compose exec frontend nginx -s reload
+
+echo 'Cron_job script finished'
 
 #https://blog.jarrousse.org/2022/04/09/an-elegant-way-to-use-docker-compose-to-obtain-and-renew-a-lets-encrypt-ssl-certificate-with-certbot-and-configure-the-nginx-service-to-use-it/

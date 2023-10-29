@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo 'Starting package script'
+
 source_dir="../"
 target_dir="../package"
 
@@ -14,3 +16,5 @@ mkdir "$target_dir"
 cp "$source_dir/docker-compose.yml" "$target_dir/docker-compose.yml"
 cp "$source_dir/.env" "$target_dir/.env"
 cp -r "$source_dir/etc/" "$target_dir/etc/"
+
+echo 'Package script finished'
