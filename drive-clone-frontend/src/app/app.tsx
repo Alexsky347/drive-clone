@@ -16,12 +16,8 @@ import Layout from './component/layout/layout';
 import { PrivateRoute } from './utils/auth/private-route';
 
 export function App() {
-  const { user: currentUser } = useSelector(
-    (state: { auth: AuthState }) => state.auth
-  );
-  const { isLoading } = useSelector(
-    (state: { file: { isLoading: boolean } }) => state.file
-  );
+  const { user: currentUser } = useSelector((state: { auth: AuthState }) => state.auth);
+  const { isLoading } = useSelector((state: { file: { isLoading: boolean } }) => state.file);
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -34,10 +30,10 @@ export function App() {
   }, [currentUser, logOut]);
 
   return (
-    <div className="App">
+    <div className='App'>
       {isLoading ? (
         <CircularProgress
-          color="secondary"
+          color='secondary'
           style={{
             width: '10%',
             height: 'auto',
@@ -51,9 +47,9 @@ export function App() {
       ) : null}
       <Router>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path='/login' element={<Login />} />
           <Route
-            path="/"
+            path='/'
             element={
               <PrivateRoute>
                 <Layout />
@@ -63,7 +59,7 @@ export function App() {
         </Routes>
       </Router>
       <ToastContainer
-        position="top-center"
+        position='top-center'
         autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
@@ -72,7 +68,7 @@ export function App() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="light"
+        theme='light'
       />
     </div>
   );

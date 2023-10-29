@@ -1,4 +1,4 @@
 export interface NavbarProps {
-    isOpen: boolean;
-    toggle: () => void;
+  isOpen: boolean;
+  toggle: () => void;
 }

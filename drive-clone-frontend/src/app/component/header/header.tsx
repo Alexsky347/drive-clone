@@ -25,21 +25,21 @@ const Header: React.FC<HeaderProps> = ({ handleSideNav }) => {
   };
 
   return (
-    <div className="header">
-      <div className="logo">
+    <div className='header'>
+      <div className='logo'>
         <Hamburger
           toggled={isOpen}
           onToggle={handleSideNavChildren}
           duration={0.8}
           rounded
-          label="Show menu"
+          label='Show menu'
           size={36}
         />
-        <img src="/static/drive.png" alt="Logo" />
+        <img src='/static/drive.png' alt='Logo' />
         <h1>{document.title}</h1>
       </div>
 
-      <div className="avatar">
+      <div className='avatar'>
         <StyledAvatar>
           <Avatar>{userName?.[0]}</Avatar>
         </StyledAvatar>

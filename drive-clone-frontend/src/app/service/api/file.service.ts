@@ -17,10 +17,10 @@ export class FileService {
     pageNumber: number,
     search: string,
     sortBy: string,
-    sortMode: string
+    sortMode: string,
   ) => {
     return await http.get(
-      `/files/get?limit=${limit}&pageNumber=${pageNumber}&search=${search}&sortBy=${sortBy}&sortMode=${sortMode}`
+      `/files/get?limit=${limit}&pageNumber=${pageNumber}&search=${search}&sortBy=${sortBy}&sortMode=${sortMode}`,
     );
   };
 
@@ -56,8 +56,6 @@ export class FileService {
   };
 
   static renameFile = async (oldName: string, newName: string) => {
-    return await http.get(
-      `/file/edit-name?oldName=${oldName}&newName=${newName}`
-    );
+    return await http.get(`/file/edit-name?oldName=${oldName}&newName=${newName}`);
   };
 }

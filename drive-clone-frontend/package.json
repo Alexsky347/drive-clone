@@ -5,7 +5,10 @@
   "scripts": {
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test"
+    "test": "nx test",
+    "lint": "eslint src/**/*.{js,jsx,ts,tsx,json}",
+    "lint:fix": "eslint --fix --cache --cache-strategy metadata src/**/*.{js,jsx,ts,tsx,json}",
+    "format": "prettier --write --cache --cache-strategy metadata src/**/*.{js,jsx,ts,tsx,css,md,json,scss} --config ./.prettierrc"
   },
   "private": true,
   "dependencies": {

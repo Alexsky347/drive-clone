@@ -60,7 +60,7 @@ services:
       - main-network
     ports:
       - "$FRONTEND_PORT:80"
-      - '443:443'
+      - "443:443"
     volumes:
       - ./etc/nginx/templates:/etc/nginx/templates:ro
       - ./etc/letsencrypt:/etc/letsencrypt:ro # mounting the folder to the nginx container
@@ -69,7 +69,3 @@ services:
 networks:
   main-network:
     name: $NETWORK_NAME
-
-volumes:
-  mongodb:
-    driver: local

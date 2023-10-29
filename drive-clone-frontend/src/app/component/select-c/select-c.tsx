@@ -20,14 +20,14 @@ export function SelectC(props: SelectCProps) {
   return (
     <div className={styles['container']}>
       <FormControl sx={{ m: 1, minWidth: 80 }}>
-        <InputLabel id="select-sort-label">Sort</InputLabel>
+        <InputLabel id='select-sort-label'>Sort</InputLabel>
         <Select
-          labelId="select-label-id-sort-by"
-          id="select-sort-by"
+          labelId='select-label-id-sort-by'
+          id='select-sort-by'
           value={selectValue}
           onChange={handleChange}
           autoWidth
-          label="SortBy"
+          label='SortBy'
         >
           <MenuItem value={'name-ASC'}>Name ASC</MenuItem>
           <MenuItem value={'createdDate-ASC'}>Date ASC</MenuItem>

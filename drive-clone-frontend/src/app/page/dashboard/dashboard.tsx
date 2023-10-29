@@ -21,11 +21,7 @@ interface DashboardProps {
   setReRender: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export function Dashboard({
-  sideBarOption,
-  reRender,
-  setReRender,
-}: DashboardProps) {
+export function Dashboard({ sideBarOption, reRender, setReRender }: DashboardProps) {
   const PAGE_INIT = 10;
   const [files, setFiles] = useState<FileCollection>([]);
   const [count, setCount] = useState(0);
@@ -42,11 +38,9 @@ export function Dashboard({
       page: number,
       search: string,
       orderBy: string,
-      dispatch: AppDispatch
+      dispatch: AppDispatch,
     ) => {
-      const response: any = await dispatch(
-        findAll({ limit, page, search, orderBy })
-      );
+      const response: any = await dispatch(findAll({ limit, page, search, orderBy }));
       const { files, total } = response.payload;
       setFiles(files);
       setCount(total);
@@ -60,10 +54,7 @@ export function Dashboard({
    * @param event
    * @param value
    */
-  const handleChangePaginate = async (
-    event: React.ChangeEvent<unknown>,
-    value: number
-  ) => {
+  const handleChangePaginate = async (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
 
@@ -76,8 +67,7 @@ export function Dashboard({
     setLimit(limit);
   };
 
-  const scrollToTop = () =>
-    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  const scrollToTop = () => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 
   const handleSearchChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const {
@@ -97,19 +87,19 @@ export function Dashboard({
 
   if (sideBarOption === 0) {
     return (
-      <div className="main">
+      <div className='main'>
         <Grid
           container
           spacing={{ xs: 2, md: 3 }}
           columns={{ xs: 1, sm: 8, md: 16 }}
-          justifyContent="space-evenly"
-          alignItems="center"
-          padding="2px"
+          justifyContent='space-evenly'
+          alignItems='center'
+          padding='2px'
         >
-          <Grid item xs={2} sm={4} md={3} maxWidth="80%">
+          <Grid item xs={2} sm={4} md={3} maxWidth='80%'>
             <SearchInput sx={{ width: '100%' }} onChange={handleSearchChange} />
           </Grid>
-          <Grid item xs={2} sm={4} md={3} maxWidth="80%">
+          <Grid item xs={2} sm={4} md={3} maxWidth='80%'>
             <SelectC onChangeSelect={handleSelectChange} />
           </Grid>
         </Grid>
@@ -120,38 +110,33 @@ export function Dashboard({
               container
               spacing={{ xs: 2, md: 3 }}
               columns={{ xs: 1, sm: 8, md: 16 }}
-              justifyContent="space-evenly"
-              alignItems="start"
-              padding="2px"
+              justifyContent='space-evenly'
+              alignItems='start'
+              padding='2px'
             >
               {files.map((file, i) => (
-                <Grid item xs={2} sm={4} md={3} key={i} maxWidth="100%">
-                  <CardC
-                    metaData={file}
-                    reRender={reRender}
-                    setReRender={setReRender}
-                    key={i}
-                  />
+                <Grid item xs={2} sm={4} md={3} key={i} maxWidth='100%'>
+                  <CardC metaData={file} reRender={reRender} setReRender={setReRender} key={i} />
                 </Grid>
               ))}
             </Grid>
             <Stack
               padding={5}
               spacing={2}
-              flexWrap="wrap"
-              flexDirection="row"
-              justifyContent="center"
-              display="flex"
+              flexWrap='wrap'
+              flexDirection='row'
+              justifyContent='center'
+              display='flex'
             >
               <FormControl sx={{ m: 1, minWidth: 80 }}>
-                <InputLabel id="limit-select">Items</InputLabel>
+                <InputLabel id='limit-select'>Items</InputLabel>
                 <Select
-                  labelId="limit-select"
-                  id="limit-select"
+                  labelId='limit-select'
+                  id='limit-select'
                   value={limit}
                   onChange={handleChangeLimit}
                   autoWidth
-                  label="Items"
+                  label='Items'
                 >
                   <MenuItem value={PAGE_INIT}>10</MenuItem>
                   <MenuItem value={50}>50</MenuItem>
@@ -163,19 +148,17 @@ export function Dashboard({
                 siblingCount={0}
                 boundaryCount={1}
                 count={count}
-                color="primary"
+                color='primary'
                 page={page}
                 onChange={handleChangePaginate}
-                variant="outlined"
+                variant='outlined'
                 showFirstButton
                 showLastButton
               />
             </Stack>
           </>
         ) : (
-          <h2 style={{ width: '100%', paddingTop: '10%', textAlign: 'center' }}>
-            No files yet.
-          </h2>
+          <h2 style={{ width: '100%', paddingTop: '10%', textAlign: 'center' }}>No files yet.</h2>
         )}
       </div>
     );

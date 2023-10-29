@@ -11,7 +11,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.FileCopyUtils;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.Date;
 
@@ -61,7 +65,7 @@ public class FileInfo {
 
     public FileInfo(String name, long size, User user, Date createdDate) {
         this.name = name;
-        this.url = "/static/" + user.getUsername() + "/" + name;
+        this.url = "static/" + user.getUsername() + "/" + name;
         this.size = size;
         this.user = user;
         this.createdDate = createdDate;
@@ -69,17 +73,18 @@ public class FileInfo {
     }
 
     public String getUrl() {
-        try {
-            Resource resource = new ClassPathResource(url);
-            byte[] fileContent = FileCopyUtils.copyToByteArray(resource.getInputStream());
-            String encodedFile = null;
-            if (contentType != null) {
-                encodedFile = Base64.getEncoder().encodeToString(fileContent);
+        String base64EncodedContent = null;
+        // relative path
+        Path path = Paths.get(url);
+        if (Files.exists(path)) {
+            try{
+                byte[] fileContent = Files.readAllBytes(path);
+                base64EncodedContent = Base64.getEncoder().encodeToString(fileContent);
+            } catch (IOException e) {
+                logger.error(String.valueOf(e));
             }
-            return encodedFile;
-        } catch (IOException e) {
-            logger.error(String.valueOf(e));
-            return null;
         }
+
+        return base64EncodedContent;
     }
 }

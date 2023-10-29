@@ -1,7 +1,7 @@
-import axios from "axios";
- 
+import axios from 'axios';
+
 const jwtInterceptor = axios.create({});
- 
+
 jwtInterceptor.interceptors.response.use(
   (response) => {
     return response;
@@ -9,7 +9,7 @@ jwtInterceptor.interceptors.response.use(
   async (error) => {
     if (error.response.status === 401) {
       await axios
-        .get("http://localhost:4000/refresh-token", {
+        .get('http://localhost:4000/refresh-token', {
           withCredentials: true,
         })
         .catch((err) => {
@@ -20,6 +20,6 @@ jwtInterceptor.interceptors.response.use(
     } else {
       return Promise.reject(error);
     }
-  }
+  },
 );
 export default jwtInterceptor;

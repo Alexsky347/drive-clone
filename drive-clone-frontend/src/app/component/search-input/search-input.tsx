@@ -18,9 +18,9 @@ export function SearchInput(props: SearchInputProps) {
   return (
     <div className={styles['container']} style={props.sx}>
       <TextField
-        id="standard-basic"
-        label="Search"
-        variant="standard"
+        id='standard-basic'
+        label='Search'
+        variant='standard'
         value={searchValue}
         onChange={handleChange}
       />

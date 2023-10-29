@@ -39,17 +39,11 @@ const style = {
   p: 4,
 };
 
-export function CardC({
-  metaData,
-  reRender,
-  setReRender,
-}: MainProps): ReactElement {
+export function CardC({ metaData, reRender, setReRender }: MainProps): ReactElement {
   const [open, setOpen] = useState(false);
   const [newFileName, setNewFileName] = useState<string | undefined>('');
   const { message } = useSelector((state: { message: any }) => state.message);
-  const { hasDeleted, hasRenamed } = useSelector(
-    (state: { file: any }) => state.file
-  );
+  const { hasDeleted, hasRenamed } = useSelector((state: { file: any }) => state.file);
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -86,9 +80,7 @@ export function CardC({
   // Rename
   const handleRename = async () => {
     const newFileNamed = handleFileName(newFileName || '');
-    const response: any = await dispatch(
-      renameFile({ metaData, newFileName: newFileNamed })
-    );
+    const response: any = await dispatch(renameFile({ metaData, newFileName: newFileNamed }));
     if (!response?.error) {
       handleClose();
       handleReRender();
@@ -109,37 +101,37 @@ export function CardC({
   return (
     <div>
       <Card>
-        <CardHeader title="" subheader={handleFileName(metaData?.name)} />
+        <CardHeader title='' subheader={handleFileName(metaData?.name)} />
         <CardMedia
           sx={{ objectFit: 'contain' }}
-          component="img"
-          height="194"
+          component='img'
+          height='194'
           image={
             metaData?.url && metaData?.contentType.includes('image')
               ? `data:${metaData.contentType};base64,${metaData?.url}`
               : '/static/no-picture.jpg'
           }
-          alt="picture"
+          alt='picture'
         />
         <CardContent>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant='body2' color='text.secondary'>
             {(metaData?.size / 100).toFixed(2)} bytes
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant='body2' color='text.secondary'>
             {format(new Date(metaData?.createdDate), 'yyyy-MM-dd')}
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton onClick={handleDelete} aria-label="remove">
+          <IconButton onClick={handleDelete} aria-label='remove'>
             <DeleteIcon />
           </IconButton>
-          <IconButton onClick={handleOpen} aria-label="add">
+          <IconButton onClick={handleOpen} aria-label='add'>
             <CreateIcon />
           </IconButton>
           <IconButton onClick={handleZip}>
-            <FolderZipOutlined aria-label="zip file" />
+            <FolderZipOutlined aria-label='zip file' />
           </IconButton>
-          <IconButton onClick={handleDownload} aria-label="download file">
+          <IconButton onClick={handleDownload} aria-label='download file'>
             <DownloadIcon />
           </IconButton>
         </CardActions>
@@ -147,17 +139,17 @@ export function CardC({
       <Modal
         open={open}
         onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        aria-labelledby='modal-modal-title'
+        aria-describedby='modal-modal-description'
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Typography id='modal-modal-title' variant='h6' component='h2'>
             <TextField
               required
-              id="outlined-full-width"
-              label="CardComponent Name"
-              margin="normal"
-              variant="outlined"
+              id='outlined-full-width'
+              label='CardComponent Name'
+              margin='normal'
+              variant='outlined'
               fullWidth
               style={{ margin: 8 }}
               InputLabelProps={{
@@ -165,18 +157,12 @@ export function CardC({
               }}
               defaultValue={handleFileName(metaData?.name.split('.')[0])}
               onChange={(e) => {
-                setNewFileName(
-                  e.target.value + '.' + metaData?.name.split('.')[1]
-                );
+                setNewFileName(e.target.value + '.' + metaData?.name.split('.')[1]);
               }}
             />
           </Typography>
 
-          <Button
-            style={{ margin: 8 }}
-            variant="contained"
-            onClick={handleRename}
-          >
+          <Button style={{ margin: 8 }} variant='contained' onClick={handleRename}>
             Save
           </Button>
         </Box>

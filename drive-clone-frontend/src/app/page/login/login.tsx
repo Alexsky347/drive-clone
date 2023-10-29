@@ -1,12 +1,6 @@
 import { FormEvent, JSX, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  Button,
-  Checkbox,
-  FormControlLabel,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Button, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
 
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -48,7 +42,7 @@ function Login(): JSX.Element {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component='main' maxWidth='xs'>
       <Box
         sx={{
           padding: '20%',
@@ -57,42 +51,37 @@ function Login(): JSX.Element {
           alignItems: 'center',
         }}
       >
-        <img src="/static/drive.png" alt="drive clone logo" />
-        <Typography component="h1" variant="h5">
+        <img src='/static/drive.png' alt='drive clone logo' />
+        <Typography component='h1' variant='h5'>
           Sign in
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
-            margin="normal"
+            margin='normal'
             required
             fullWidth
-            id="username"
-            label="Username"
-            type="text"
-            name="username"
-            autoComplete="username"
+            id='username'
+            label='Username'
+            type='text'
+            name='username'
+            autoComplete='username'
             autoFocus
           />
           <TextField
-            margin="normal"
+            margin='normal'
             required
             fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
+            name='password'
+            label='Password'
+            type='password'
+            id='password'
+            autoComplete='current-password'
           />
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
+            control={<Checkbox value='remember' color='primary' />}
+            label='Remember me'
           />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
+          <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
             Sign In
           </Button>
         </Box>

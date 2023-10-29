@@ -6,28 +6,28 @@ import { AuthState } from '../../model/interface/auth-state';
 
 const user = JSON.parse(localStorage.getItem('user') as string);
 
-export const login = createAsyncThunk<
-  { user: User },
-  { username: string; password: string }
->('auth/login', async ({ username, password }, thunkAPI) => {
-  try {
-    if (!username || !password) {
-      const message = 'Username or password is empty';
+export const login = createAsyncThunk<{ user: User }, { username: string; password: string }>(
+  'auth/login',
+  async ({ username, password }, thunkAPI) => {
+    try {
+      if (!username || !password) {
+        const message = 'Username or password is empty';
+        thunkAPI.dispatch(setMessage({ message, level: 'error' }));
+        return thunkAPI.rejectWithValue(message);
+      }
+      const data = await AuthService.login({ username, password });
+      thunkAPI.dispatch(setMessage({ message: "You're logged!" }));
+      return { user: data };
+    } catch (error: Error | any) {
+      const message =
+        (error?.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
       thunkAPI.dispatch(setMessage({ message, level: 'error' }));
       return thunkAPI.rejectWithValue(message);
     }
-    const data = await AuthService.login({ username, password });
-    thunkAPI.dispatch(setMessage({ message: "You're logged!" }));
-    return { user: data };
-  } catch (error: Error | any) {
-    const message =
-      (error?.response && error.response.data && error.response.data.message) ||
-      error.message ||
-      error.toString();
-    thunkAPI.dispatch(setMessage({ message, level: 'error' }));
-    return thunkAPI.rejectWithValue(message);
-  }
-});
+  },
+);
 
 export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
   const { message } = await AuthService.logout();

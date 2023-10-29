@@ -27,7 +27,7 @@ import java.util.*;
 
 @Service
 public class FilesStorageService implements IFilesStorageService {
-    public final Path root = Paths.get("src/main/resources/static");
+    public final Path root = Paths.get("static");
     private final FileRepository fileRepository;
     private final ResourceLoader resourceLoader;
 
@@ -49,15 +49,8 @@ public class FilesStorageService implements IFilesStorageService {
 
     @Override
     public void init() throws IOException {
-        Resource resource = resourceLoader.getResource("classpath:/static");
-        File staticDirectory = resource.getFile();
-        boolean staticDirectoryCreated = false;
-
-        if (!staticDirectory.exists()) {
-            staticDirectoryCreated = staticDirectory.mkdir();
-            if (!staticDirectoryCreated) {
-                throw new CustomError("Could not create the directory where the uploaded files will be stored.");
-            }
+        if (!Files.exists(root)) {
+            Files.createDirectory(root);
         }
     }
 

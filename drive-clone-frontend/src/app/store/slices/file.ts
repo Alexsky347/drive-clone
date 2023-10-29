@@ -9,7 +9,7 @@ const dispatchActions = (
   thunkAPI: any,
   message: string,
   isLoggedIn: boolean,
-  level: ToastLevel
+  level: ToastLevel,
 ) => {
   thunkAPI.dispatch(setMessage({ message, level }));
   thunkAPI.dispatch(setIsLoggedIn({ isLoggedIn }));
@@ -17,21 +17,12 @@ const dispatchActions = (
 
 export const findAll = createAsyncThunk(
   'file/findAll',
-  async (
-    params: { limit: number; page: number; search: string; orderBy: string },
-    thunkAPI
-  ) => {
+  async (params: { limit: number; page: number; search: string; orderBy: string }, thunkAPI) => {
     try {
       const { limit, page, search, orderBy } = params;
       const sortBy = orderBy.split('-')[0];
       const sortMode = orderBy.split('-')[1];
-      const response = await FileService.getFiles(
-        limit,
-        page,
-        search,
-        sortBy,
-        sortMode
-      );
+      const response = await FileService.getFiles(limit, page, search, sortBy, sortMode);
       if (response.status === 200) {
         const { files, total } = response.data;
         const totalCeiled = Math.ceil(total / limit);
@@ -42,15 +33,13 @@ export const findAll = createAsyncThunk(
       }
     } catch (error: Error | any) {
       const message =
-        (error?.response &&
-          error.response.data &&
-          error.response.data.message) ||
+        (error?.response && error.response.data && error.response.data.message) ||
         error.message ||
         error.toString();
       dispatchActions(thunkAPI, message, false, 'error');
       return thunkAPI.rejectWithValue(message);
     }
-  }
+  },
 );
 
 export const deleteFile = createAsyncThunk(
@@ -59,15 +48,10 @@ export const deleteFile = createAsyncThunk(
     if (metaData?.name) {
       const response = await FileService.deleteFile(metaData.name);
       if (response.status === 200) {
-        thunkAPI.dispatch(
-          setMessage({ message: 'File deleted successfully !' })
-        );
+        thunkAPI.dispatch(setMessage({ message: 'File deleted successfully !' }));
         return { hasDeleted: true };
       } else {
-        const message =
-          response.data?.message ||
-          response?.statusText ||
-          'An error occurred.';
+        const message = response.data?.message || response?.statusText || 'An error occurred.';
         dispatchActions(thunkAPI, message, false, 'error');
         return thunkAPI.rejectWithValue(message);
       }
@@ -76,7 +60,7 @@ export const deleteFile = createAsyncThunk(
       thunkAPI.dispatch(setMessage({ message: noFileFound, level: 'warning' }));
       return thunkAPI.rejectWithValue(noFileFound);
     }
-  }
+  },
 );
 
 export const renameFile = createAsyncThunk(
@@ -86,36 +70,24 @@ export const renameFile = createAsyncThunk(
     if (metaData?.name) {
       if (metaData?.name === newFileName) {
         const sameFileName = 'Same file name';
-        thunkAPI.dispatch(
-          setMessage({ message: sameFileName, level: 'warning' })
-        );
+        thunkAPI.dispatch(setMessage({ message: sameFileName, level: 'warning' }));
         return thunkAPI.rejectWithValue(sameFileName);
       } else {
-        const response = await FileService.renameFile(
-          metaData?.name,
-          newFileName as string
-        );
+        const response = await FileService.renameFile(metaData?.name, newFileName as string);
         if (response.status === 200) {
-          thunkAPI.dispatch(
-            setMessage({ message: 'File renamed successfully !' })
-          );
+          thunkAPI.dispatch(setMessage({ message: 'File renamed successfully !' }));
           return thunkAPI.fulfillWithValue('File renamed successfully !');
         } else {
-          const message =
-            response.data?.message ||
-            response?.statusText ||
-            'An error occurred.';
+          const message = response.data?.message || response?.statusText || 'An error occurred.';
           dispatchActions(thunkAPI, message, false, 'error');
           return thunkAPI.rejectWithValue(message);
         }
       }
     } else {
-      thunkAPI.dispatch(
-        setMessage({ message: 'No file founded !', level: 'warning' })
-      );
+      thunkAPI.dispatch(setMessage({ message: 'No file founded !', level: 'warning' }));
       return thunkAPI.rejectWithValue('No file founded !');
     }
-  }
+  },
 );
 
 export const zipFile = createAsyncThunk(
@@ -125,20 +97,16 @@ export const zipFile = createAsyncThunk(
     if (name) {
       const response: any = await FileService.zipFile(name as string);
       if (response.data) {
-        thunkAPI.dispatch(
-          setMessage({ message: 'File zipped successfully !' })
-        );
+        thunkAPI.dispatch(setMessage({ message: 'File zipped successfully !' }));
         return thunkAPI.fulfillWithValue('File zipped successfully !');
       } else {
         const message =
-          response.data?.message ||
-          response?.statusText ||
-          'An error occurred on zipped action.';
+          response.data?.message || response?.statusText || 'An error occurred on zipped action.';
         dispatchActions(thunkAPI, message, false, 'error');
         return thunkAPI.rejectWithValue(message);
       }
     }
-  }
+  },
 );
 
 const initialState: FileState = {

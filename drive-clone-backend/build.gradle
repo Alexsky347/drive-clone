@@ -19,6 +19,10 @@ configurations {
     }
 }
 
+javadoc {
+    destinationDir = file("${buildDir}/docs/javadoc")
+}
+
 repositories {
     mavenCentral()
 }

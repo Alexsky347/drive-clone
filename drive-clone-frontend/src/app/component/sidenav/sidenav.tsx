@@ -9,9 +9,7 @@ import Box from '@mui/material/Box';
 import { toast } from 'react-toastify';
 import List from '@mui/joy/List';
 import ListItem from '@mui/joy/ListItem';
-import ListItemDecorator, {
-  listItemDecoratorClasses,
-} from '@mui/joy/ListItemDecorator';
+import ListItemDecorator, { listItemDecoratorClasses } from '@mui/joy/ListItemDecorator';
 import ListItemContent from '@mui/joy/ListItemContent';
 import ListItemButton from '@mui/joy/ListItemButton';
 import { FileService } from '../../service/api/file.service';
@@ -29,12 +27,7 @@ interface SideBarProps {
   handleSideNav: boolean;
 }
 
-function Sidenav({
-  setSideBarOption,
-  reRender,
-  setReRender,
-  handleSideNav,
-}: SideBarProps) {
+function Sidenav({ setSideBarOption, reRender, setReRender, handleSideNav }: SideBarProps) {
   const [listActive1, setListActive1] = useState<string>('list-item-active');
   const [listActive2, setListActive2] = useState<string>('');
   const [isFileUploaded, setIsFileUploaded] = useState<boolean>(false);
@@ -74,16 +67,12 @@ function Sidenav({
 
     if (files?.length === 1) {
       data.append('file', files[0]);
-      response = (await FileService.uploadOneFile(
-        data
-      )) as unknown as ItResponse;
+      response = (await FileService.uploadOneFile(data)) as unknown as ItResponse;
     } else {
       Array.from(files!).forEach((element) => {
         data.append('file', element);
       });
-      response = (await FileService.uploadMultipleFiles(
-        data
-      )) as unknown as ItResponse;
+      response = (await FileService.uploadMultipleFiles(data)) as unknown as ItResponse;
     }
 
     if (response.status === 200) {
@@ -111,7 +100,7 @@ function Sidenav({
         }}
       >
         <List
-          aria-label="Sidebar"
+          aria-label='Sidebar'
           sx={{
             // ...applyRadiusOnEdges({ target: 'deepest' | 'nested' }),
             '--List-item-paddingLeft': '0px',
@@ -137,13 +126,10 @@ function Sidenav({
               },
             }}
           >
-            <ListItemButton
-              className={`list-item ${listActive1}`}
-              onClick={handleOpen}
-            >
+            <ListItemButton className={`list-item ${listActive1}`} onClick={handleOpen}>
               <ListItemDecorator>
                 <StyledBtn>
-                  <img src="/static/add.svg" alt="Logo" />
+                  <img src='/static/add.svg' alt='Logo' />
                 </StyledBtn>
               </ListItemDecorator>
               {handleSideNav ? <ListItemContent>New</ListItemContent> : null}
@@ -168,15 +154,13 @@ function Sidenav({
             >
               <ListItemDecorator>
                 <StyledBtn>
-                  <ComputerIcon fontSize="large" />
+                  <ComputerIcon fontSize='large' />
                 </StyledBtn>
               </ListItemDecorator>
-              {handleSideNav ? (
-                <ListItemContent>My Drive</ListItemContent>
-              ) : null}
+              {handleSideNav ? <ListItemContent>My Drive</ListItemContent> : null}
             </ListItemButton>
           </ListItem>
-          <Divider variant="middle" component="li" />
+          <Divider variant='middle' component='li' />
           <ListItem
             sx={{
               '&:hover': {
@@ -195,12 +179,10 @@ function Sidenav({
             >
               <ListItemDecorator>
                 <StyledBtn>
-                  <ExitToAppIcon fontSize="large" />
+                  <ExitToAppIcon fontSize='large' />
                 </StyledBtn>
               </ListItemDecorator>
-              {handleSideNav ? (
-                <ListItemContent>Exit App</ListItemContent>
-              ) : null}
+              {handleSideNav ? <ListItemContent>Exit App</ListItemContent> : null}
             </ListItemButton>
           </ListItem>
         </List>
@@ -208,11 +190,11 @@ function Sidenav({
       <Modal
         open={open}
         onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        aria-labelledby='modal-modal-title'
+        aria-describedby='modal-modal-description'
       >
         <Box
-          className="upload-modal"
+          className='upload-modal'
           sx={{
             position: 'absolute',
             top: '50%',
@@ -226,23 +208,23 @@ function Sidenav({
           }}
         >
           {isFileUploaded ? (
-            <div className="metaData">
+            <div className='metaData'>
               <p>File name : {metaData.fileName}</p>
               <p>Created : {metaData.createDate}</p>
               <p>Last modified : {metaData.lastModified}</p>
               <p>size : {metaData.fileSize} MB</p>
             </div>
           ) : (
-            <div className="metaData not-uploaded">
+            <div className='metaData not-uploaded'>
               <p>No files yet</p>
             </div>
           )}
 
           {isFileUploaded ? (
             <Button
-              className="upload-button"
-              variant="contained"
-              component="label"
+              className='upload-button'
+              variant='contained'
+              component='label'
               onClick={(e) => {
                 handleUpload(e);
               }}
@@ -250,24 +232,18 @@ function Sidenav({
               Upload
             </Button>
           ) : (
-            <Button variant="contained" component="label">
+            <Button variant='contained' component='label'>
               Select one or multiple file(s)
               <input
-                type="file"
+                type='file'
                 multiple
                 onChange={(e) => {
                   setMetaData({
                     fileName: e.target.files?.[0].name,
-                    createDate: new Date(
-                      e.target.files![0].lastModified
-                    ).toDateString(),
-                    lastModified: new Date(
-                      e.target.files![0].lastModified
-                    ).toDateString(),
+                    createDate: new Date(e.target.files![0].lastModified).toDateString(),
+                    lastModified: new Date(e.target.files![0].lastModified).toDateString(),
                     fileSize: (
-                      Math.round(
-                        e.target.files![0].size * Math.pow(10, -6) * 100
-                      ) / 100
+                      Math.round(e.target.files![0].size * Math.pow(10, -6) * 100) / 100
                     ).toFixed(3),
                     type: e.target.files![0].type,
                   });

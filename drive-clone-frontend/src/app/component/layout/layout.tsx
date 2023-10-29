@@ -17,20 +17,16 @@ export default function Layout() {
     return sideNavOpen;
   };
   return (
-    <div className="dashboard-container">
+    <div className='dashboard-container'>
       <Header handleSideNav={handleSideNavParent} />
-      <div className="main-flex">
+      <div className='main-flex'>
         <Sidenav
           setSideBarOption={setSideBarOption}
           reRender={reRender}
           setReRender={setReRender}
           handleSideNav={sideNavOpen}
         />
-        <Dashboard
-          sideBarOption={sideBarOption}
-          reRender={reRender}
-          setReRender={setReRender}
-        />
+        <Dashboard sideBarOption={sideBarOption} reRender={reRender} setReRender={setReRender} />
       </div>
     </div>
   );
