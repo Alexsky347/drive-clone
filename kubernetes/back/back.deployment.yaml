@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springboot-backend
+spec:
+  replicas: 1 # Number of backend pods (scale as needed)
+  selector:
+    matchLabels:
+      app: springboot-backend
+  template:
+    metadata:
+      name: springboot-backend
+      labels:
+        app: springboot-backend
+    spec:
+      containers:
+        - name: springboot-backend
+          image: your-registry.com/react-frontend:latest # Replace with your image path
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+      restartPolicy: Always

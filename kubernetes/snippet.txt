@@ -1,0 +1,11 @@
+docker build -t your-registry.com/springboot-backend:latest springboot/
+docker build -t your-registry.com/react-frontend:latest react/
+docker push your-registry.com/springboot-backend:latest
+docker push your-registry.com/react-frontend:latest
+
+// handle kubeconfig
+kubectl config use-context your-cluster
+kubectl config set-credentials your-username --token=your-token
+kubectl config set-context your-cluster --user=your-username
+kubectl config set-cluster your-cluster --server=https://your-cluster.com
+kubectl config view
